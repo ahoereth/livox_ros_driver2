@@ -41,6 +41,7 @@ Desktop-Full installation is recommend.
 ### 2.1 Clone Livox ROS Driver 2 source code:
 
 ```shell
+cd <ros_ws>/src
 git clone https://github.com/Livox-SDK/livox_ros_driver2.git ws_livox/src/livox_ros_driver2
 ```
 
@@ -56,22 +57,18 @@ git clone https://github.com/Livox-SDK/livox_ros_driver2.git ws_livox/src/livox_
 
 ### 2.3 Build the Livox ROS Driver 2:
 
-#### For ROS (take Noetic as an example):
+#### For ROS1
+
 ```shell
-source /opt/ros/noetic/setup.sh
-./build.sh ROS1
+cd <ros_ws>
+catkin_make # or you can use `catkin build`
 ```
 
-#### For ROS2 Foxy:
-```shell
-source /opt/ros/foxy/setup.sh
-./build.sh ROS2
-```
+#### For ROS2
 
-#### For ROS2 Humble:
 ```shell
-source /opt/ros/humble/setup.sh
-./build.sh humble
+cd <ros_ws>
+colcon build --symlink-install
 ```
 
 ### 2.4 Run Livox ROS Driver 2:
@@ -79,7 +76,8 @@ source /opt/ros/humble/setup.sh
 #### For ROS:
 
 ```shell
-source ../../devel/setup.sh
+cd <ros_ws>
+source ./devel/setup.sh
 roslaunch livox_ros_driver2 [launch file]
 ```
 
@@ -96,7 +94,8 @@ roslaunch livox_ros_driver2 rviz_HAP.launch
 
 #### For ROS2:
 ```shell
-source ../../install/setup.sh
+cd <ros_ws>
+source ./install/setup.sh
 ros2 launch livox_ros_driver2 [launch file]
 ```
 
