@@ -47,7 +47,7 @@ if($ENV{ROS_VERSION} STREQUAL "1")
   add_message_files(FILES
     CustomPoint.msg
     CustomMsg.msg
-  #   Message2.msg
+    #   Message2.msg
   )
 
   ## Generate added messages and services with any dependencies listed here
@@ -57,10 +57,10 @@ if($ENV{ROS_VERSION} STREQUAL "1")
 
   find_package(PkgConfig)
   pkg_check_modules(APR apr-1)
-  if (APR_FOUND)
+  if(APR_FOUND)
     message(${APR_INCLUDE_DIRS})
     message(${APR_LIBRARIES})
-  endif (APR_FOUND)
+  endif(APR_FOUND)
 
   ###################################
   ## catkin specific configuration ##
@@ -240,10 +240,10 @@ else($ENV{ROS_VERSION} STREQUAL "2")
   # check apr
   find_package(PkgConfig)
   pkg_check_modules(APR apr-1)
-  if (APR_FOUND)
+  if(APR_FOUND)
     message(${APR_INCLUDE_DIRS})
     message(${APR_LIBRARIES})
-  endif (APR_FOUND)
+  endif(APR_FOUND)
 
   # generate custom msg headers
   set(LIVOX_INTERFACES livox_interfaces2)
@@ -255,8 +255,11 @@ else($ENV{ROS_VERSION} STREQUAL "2")
   )
 
   # Use prebuild livox sdk
+  message(STATUS "Platform: ${CMAKE_SYSTEM_PROCESSOR}")
   if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
     set(LIVOX_LIDAR_SDK_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/livox_sdk/lib/x86_64/liblivox_lidar_sdk_static.a)
+  elseif(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "aarch64")
+    set(LIVOX_LIDAR_SDK_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/livox_sdk/lib/aarch64/liblivox_lidar_sdk_static.a)
   else()
     message(FATAL_ERROR "Unsupported platform: ${CMAKE_SYSTEM_PROCESSOR}")
   endif()
@@ -299,7 +302,7 @@ else($ENV{ROS_VERSION} STREQUAL "2")
     get_target_property(LIVOX_INTERFACES_INCLUDE_DIRECTORIES ${LIVOX_INTERFACE_TARGET} INTERFACE_INCLUDE_DIRECTORIES)
   else()
     rosidl_get_typesupport_target(cpp_typesupport_target
-    ${LIVOX_INTERFACES} "rosidl_typesupport_cpp")
+      ${LIVOX_INTERFACES} "rosidl_typesupport_cpp")
     target_link_libraries(${PROJECT_NAME} "${cpp_typesupport_target}")
   endif()
 
@@ -308,7 +311,7 @@ else($ENV{ROS_VERSION} STREQUAL "2")
     ${PCL_INCLUDE_DIRS}
     ${APR_INCLUDE_DIRS}
     ${LIVOX_LIDAR_SDK_INCLUDE_DIR}
-    ${LIVOX_INTERFACES_INCLUDE_DIRECTORIES}   # for custom msgs
+    ${LIVOX_INTERFACES_INCLUDE_DIRECTORIES} # for custom msgs
     3rdparty
     src
   )
@@ -316,7 +319,7 @@ else($ENV{ROS_VERSION} STREQUAL "2")
   # link libraries
   target_link_libraries(${PROJECT_NAME}
     ${LIVOX_LIDAR_SDK_LIBRARY}
-    ${LIVOX_INTERFACE_TARGET}   # for custom msgs
+    ${LIVOX_INTERFACE_TARGET} # for custom msgs
     ${PPT_LIBRARY}
     ${Boost_LIBRARY}
     ${PCL_LIBRARIES}
